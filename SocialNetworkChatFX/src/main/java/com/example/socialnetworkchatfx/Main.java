@@ -4,6 +4,7 @@ import com.example.socialnetworkchatfx.controller.LoginController;
 import com.example.socialnetworkchatfx.domain.User;
 import com.example.socialnetworkchatfx.repository.MessageRepository;
 import com.example.socialnetworkchatfx.repository.db.FriendshipDBRepository;
+import com.example.socialnetworkchatfx.repository.db.JdbcUtils;
 import com.example.socialnetworkchatfx.repository.db.MessageDBRepository;
 import com.example.socialnetworkchatfx.repository.db.UserDBRepository;
 import com.example.socialnetworkchatfx.service.Service;
@@ -24,6 +25,7 @@ import java.util.Properties;
 
 public class Main extends Application {
 
+    JdbcUtils jdbcUtils;
     UserDBRepository userDBRepository;
     MessageDBRepository messageDBRepository;
     FriendshipDBRepository friendshipDBRepository;
@@ -53,9 +55,10 @@ public class Main extends Application {
         }catch(IOException e){
             System.out.println("Cannot find bd.config"+e);
         }
-        userDBRepository=new UserDBRepository(properties);
-        messageDBRepository=new MessageDBRepository(properties);
-        friendshipDBRepository=new FriendshipDBRepository(properties);
+        jdbcUtils=new JdbcUtils(properties);
+        userDBRepository=new UserDBRepository(jdbcUtils);
+        messageDBRepository=new MessageDBRepository(jdbcUtils);
+        friendshipDBRepository=new FriendshipDBRepository(jdbcUtils);
 
         userValidator=new UserValidator();
 

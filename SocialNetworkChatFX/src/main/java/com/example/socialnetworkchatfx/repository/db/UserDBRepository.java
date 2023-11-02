@@ -15,9 +15,9 @@ import java.util.Properties;
 public class UserDBRepository implements UserRepository {
     private JdbcUtils dbUtils;
 
-    public UserDBRepository(Properties properties) {
+    public UserDBRepository(JdbcUtils jdbcUtils) {
 
-        this.dbUtils = new JdbcUtils(properties);
+        this.dbUtils = jdbcUtils;
     }
 
     @Override

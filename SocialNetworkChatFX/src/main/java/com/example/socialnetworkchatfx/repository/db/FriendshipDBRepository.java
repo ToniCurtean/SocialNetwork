@@ -19,8 +19,8 @@ public class FriendshipDBRepository implements FriendshipRepository {
 
     private JdbcUtils dbUtils;
 
-    public FriendshipDBRepository(Properties properties) {
-        this.dbUtils = new JdbcUtils(properties);
+    public FriendshipDBRepository(JdbcUtils jdbcUtils) {
+        this.dbUtils = jdbcUtils;
     }
 
     @Override

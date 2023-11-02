@@ -41,6 +41,7 @@ public class JdbcUtils {
         } catch (SQLException e) {
             System.out.println("Error DB "+e);
         }
+        System.out.println(instance);
         return instance;
     }
 }

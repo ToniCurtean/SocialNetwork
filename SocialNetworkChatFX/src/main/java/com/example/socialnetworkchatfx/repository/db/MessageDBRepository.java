@@ -19,9 +19,9 @@ public class MessageDBRepository implements MessageRepository {
 
     private JdbcUtils dbUtils;
 
-    public MessageDBRepository(Properties properties){
+    public MessageDBRepository(JdbcUtils jdbcUtils){
 
-        this.dbUtils = new JdbcUtils(properties);
+        this.dbUtils =jdbcUtils;
     }
 
 
