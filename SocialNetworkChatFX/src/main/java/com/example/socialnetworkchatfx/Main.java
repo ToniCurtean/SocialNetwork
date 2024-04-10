@@ -55,10 +55,10 @@ public class Main extends Application {
         }catch(IOException e){
             System.out.println("Cannot find bd.config"+e);
         }
-        jdbcUtils=new JdbcUtils(properties);
-        userDBRepository=new UserDBRepository(jdbcUtils);
-        messageDBRepository=new MessageDBRepository(jdbcUtils);
-        friendshipDBRepository=new FriendshipDBRepository(jdbcUtils);
+        JdbcUtils.setJdbcProps(properties);
+        userDBRepository=new UserDBRepository();
+        messageDBRepository=new MessageDBRepository();
+        friendshipDBRepository=new FriendshipDBRepository();
 
         userValidator=new UserValidator();
 

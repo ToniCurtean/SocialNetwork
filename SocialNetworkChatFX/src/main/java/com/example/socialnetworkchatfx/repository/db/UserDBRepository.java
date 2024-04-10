@@ -13,17 +13,11 @@ import java.util.Date;
 import java.util.Properties;
 
 public class UserDBRepository implements UserRepository {
-    private JdbcUtils dbUtils;
-
-    public UserDBRepository(JdbcUtils jdbcUtils) {
-
-        this.dbUtils = jdbcUtils;
-    }
 
     @Override
     public User findOne(Integer id) {
 
-        Connection conn=dbUtils.getConnection();
+        Connection conn=JdbcUtils.getConnection();
         User user=null;
         try(PreparedStatement preparedStatement= conn.prepareStatement("select * from user where id=?")){
             preparedStatement.setInt(1,id);
@@ -47,7 +41,7 @@ public class UserDBRepository implements UserRepository {
 
     @Override
     public User save(User entity) {
-        Connection conn= dbUtils.getConnection();
+        Connection conn= JdbcUtils.getConnection();
         int result=0;
         try(PreparedStatement pre= conn.prepareStatement("insert into user(firstName,lastName,email,password) values (?,?,?,?)")){
             pre.setString(1,entity.getFirstName());
@@ -75,7 +69,7 @@ public class UserDBRepository implements UserRepository {
 
     @Override
     public User findByEmailPassword(String email, String password) {
-        Connection conn=dbUtils.getConnection();
+        Connection conn=JdbcUtils.getConnection();
         User user=null;
         try(PreparedStatement preparedStatement= conn.prepareStatement("select * from user where email=? and password=?")){
             preparedStatement.setString(1,email);
@@ -95,7 +89,7 @@ public class UserDBRepository implements UserRepository {
 
     @Override
     public User findByName(String firstName, String lastName) {
-        Connection conn=dbUtils.getConnection();
+        Connection conn=JdbcUtils.getConnection();
         User user=null;
         try(PreparedStatement preparedStatement= conn.prepareStatement("select * from user where firstName=? and lastName=?")){
             preparedStatement.setString(1,firstName);

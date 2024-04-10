@@ -17,12 +17,6 @@ import java.util.Properties;
 
 public class FriendshipDBRepository implements FriendshipRepository {
 
-    private JdbcUtils dbUtils;
-
-    public FriendshipDBRepository(JdbcUtils jdbcUtils) {
-        this.dbUtils = jdbcUtils;
-    }
-
     @Override
     public Friendship findOne(Integer integer) {
 
@@ -32,7 +26,7 @@ public class FriendshipDBRepository implements FriendshipRepository {
     @Override
     public Iterable<Friendship> findAll() {
         List<Friendship> friendshipsList=new ArrayList<>();
-        Connection conn=dbUtils.getConnection();
+        Connection conn=JdbcUtils.getConnection();
         try(PreparedStatement preparedStatement=conn.prepareStatement("select * from friendship")){
             try(ResultSet res=preparedStatement.executeQuery()){
                 while(res.next()){
@@ -50,7 +44,7 @@ public class FriendshipDBRepository implements FriendshipRepository {
 
     @Override
     public Friendship save(Friendship entity) {
-        Connection conn= dbUtils.getConnection();
+        Connection conn= JdbcUtils.getConnection();
         int result=0;
         try(PreparedStatement pre= conn.prepareStatement("insert into friendship(idUser1,idUser2,friendsFrom,status) values (?,?,?,?)")){
             pre.setInt(1,entity.getIdUser1());
@@ -68,7 +62,7 @@ public class FriendshipDBRepository implements FriendshipRepository {
 
     @Override
     public Friendship delete(Integer id) {
-        Connection conn=dbUtils.getConnection();
+        Connection conn=JdbcUtils.getConnection();
         int res=0;
         try(PreparedStatement pre=conn.prepareStatement("delete from friendship where id=?")){
             pre.setInt(1,id);
@@ -88,7 +82,7 @@ public class FriendshipDBRepository implements FriendshipRepository {
 
     @Override
     public void updateFriendshipForUsers(Integer id1, Integer id2, FriendshipStatus status) {
-        Connection conn=dbUtils.getConnection();
+        Connection conn=JdbcUtils.getConnection();
         int res=0;
         try(PreparedStatement preparedStatement=conn.prepareStatement("update friendship set status=? where idUser1=? and idUser2=? and status=?")){
             preparedStatement.setString(1,status.toString());
@@ -105,7 +99,7 @@ public class FriendshipDBRepository implements FriendshipRepository {
 
     @Override
     public void deleteFriendshipForUsers(Integer id1, Integer id2) {
-        Connection conn=dbUtils.getConnection();
+        Connection conn=JdbcUtils.getConnection();
         int res=0;
         try(PreparedStatement preparedStatement=conn.prepareStatement("delete from friendship where status=? and((idUser1=? and idUser2=?) or (idUser1=? and idUser2=?))")){
             preparedStatement.setString(1,"ACCEPTED");

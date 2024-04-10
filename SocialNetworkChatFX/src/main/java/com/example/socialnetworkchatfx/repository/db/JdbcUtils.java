@@ -8,15 +8,15 @@ import java.util.Properties;
 
 public class JdbcUtils {
 
-    private Properties jdbcProps;
+    private static Properties jdbcProps;
 
-    public JdbcUtils(Properties properties){
-        this.jdbcProps=properties;
+    public static void setJdbcProps(Properties properties){
+        jdbcProps=properties;
     }
 
-    private Connection instance=null;
+    private static Connection instance=null;
 
-    private Connection getNewConnection(){
+    private static Connection getNewConnection(){
         String url=jdbcProps.getProperty("jdbc.url");
         String user=jdbcProps.getProperty("jdbc.user");
         String pass=jdbcProps.getProperty("jdbc.pass");
@@ -33,7 +33,7 @@ public class JdbcUtils {
         return con;
     }
 
-    public Connection getConnection(){
+    public static Connection getConnection(){
         try {
             if (instance==null || instance.isClosed())
                 instance=getNewConnection();

@@ -17,13 +17,6 @@ import java.util.Properties;
 
 public class MessageDBRepository implements MessageRepository {
 
-    private JdbcUtils dbUtils;
-
-    public MessageDBRepository(JdbcUtils jdbcUtils){
-
-        this.dbUtils =jdbcUtils;
-    }
-
 
     @Override
     public Message findOne(Integer integer) {
@@ -33,7 +26,7 @@ public class MessageDBRepository implements MessageRepository {
     @Override
     public Iterable<Message> findAll() {
         List<Message> messagesList=new ArrayList<>();
-        Connection conn=dbUtils.getConnection();
+        Connection conn=JdbcUtils.getConnection();
         try(PreparedStatement preparedStatement=conn.prepareStatement("select * from message")){
             try(ResultSet res=preparedStatement.executeQuery()){
                 while(res.next()){
@@ -51,7 +44,7 @@ public class MessageDBRepository implements MessageRepository {
 
     @Override
     public Message save(Message entity) {
-        Connection conn= dbUtils.getConnection();
+        Connection conn= JdbcUtils.getConnection();
         int result=0;
         try(PreparedStatement pre= conn.prepareStatement("insert into message(idUser1,idUser2,text,timeT) values (?,?,?,?)")){
             pre.setInt(1,entity.getIdUser1());
@@ -80,7 +73,7 @@ public class MessageDBRepository implements MessageRepository {
     @Override
     public List<Message> getMessagesForUsers(Integer id1, Integer id2) {
         List<Message> messages=new ArrayList<>();
-        Connection con=dbUtils.getConnection();
+        Connection con=JdbcUtils.getConnection();
         try(PreparedStatement preparedStatement= con.prepareStatement("select * from message where (idUser1=? and idUser2=?) or(idUser1=? and idUser2=?) order by timeT")){
             preparedStatement.setInt(1,id1);
             preparedStatement.setInt(2,id2);
